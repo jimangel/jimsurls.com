@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load the JS file -->
+  <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
+</head>
+<body>
+** goes from latest (1.18 being published) to oldest (1.17 being published), 'master' is always https://kubernetes.io, 'dev-1.18' is never published, 'release-1.17' is always https://v1-17.docs.kubernetes.io
+  <!-- DOM element in which we'll mount our graph -->
+  <div id="graph-container"></div>
+  <!-- Use the `GitgraphJS` global variable to create your graph -->
+  <script>  
+    // Get the graph container HTML element.
+    const graphContainer = document.getElementById("graph-container");
+
+    // Instantiate the graph.
+    const gitgraph = GitgraphJS.createGitgraph(graphContainer,{
+      template: "blackarrow",
+      // orientation: "horizontal",
+      // orientation: "vertical-reverse",
+      author: "random <person@ex.org>"
+      });
+
+    // Create master w/ init commits
+    const master = gitgraph.branch("master");
+    master.commit({
+        subject: "1.17 blog post announcement",
+        tag: "snapshot-initial-v1.17"
+        });
+        
+        
+    // create the dev branch (mirrors master holds feature docs)
+    const devBranch = gitgraph.branch("dev-1.18");
+
+    devBranch.merge({
+         branch: "master",
+         commitOptions: { subject: "DEV-1.18 empty init",
+                          author: "release <lead@example.org>"
+                         }
+         });
+        
+    // create release branch (mirrors master)
+    const releaseBranch = gitgraph.branch("release-1.17");
+    releaseBranch.commit({
+        subject: "RELEASE-1.17 updating config.toml",
+        author: "release <lead@example.org>"
+        });
+
+        
+    master.commit("fix in master");
+    master.commit("another content edit in master");
+    
+    
+    devBranch.commit("FEATURE DOCS 1 in dev-1.18");
+    
+    master.commit("more fixes in master");
+    
+    devBranch.commit("FEATURE DOCS 2 in dev-1.18");  
+   
+    releaseBranch.merge({
+         branch: "master",
+         commitOptions: {author: "release <lead@example.org>"}
+         });
+    
+    devBranch.commit("FEATURE DOCS 3 in dev-1.18");
+    devBranch.merge({
+         branch: "master",
+         commitOptions: { author: "release <lead@example.org>" }
+         });
+    
+    
+    master.commit("more fixes in master");
+
+    master.commit("FEATURE DOCS 4 edit in master");
+    devBranch.commit("FEATURE DOCS 4 in dev-1.18");
+
+    // 2 branches synced with master
+    devBranch.merge({
+         branch: "master",
+         commitOptions: { subject: "XXX !! MERGE CONFLICT !! XXX",
+                          author: "release <lead@example.org>"
+                         }
+         });
+    
+    devBranch.commit({
+        subject: "resolving conflicts",
+        author: "release <lead@example.org>"
+        });
+        
+    devBranch.merge({
+         branch: "master",
+         commitOptions: { author: "release <lead@example.org>" }
+         });
+   
+    releaseBranch.merge({
+         branch: master,
+         commitOptions: { author: "release <lead@example.org>" }
+         });
+    master.merge({
+         branch: devBranch,
+         commitOptions: { author: "release <lead@example.org>" }
+         });
+
+    master.commit({
+        subject: "1.18 blog post announcement",
+        tag: "snapshot-initial-v1.18"
+        });
+  </script>
+</body>
+</html>
