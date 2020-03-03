@@ -5,7 +5,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
 </head>
 <body>
-** goes from latest (1.18 released) to oldest (1.17 released). 3 branches are shown: master, dev-1.18, release-1.17. 'master' is always https://kubernetes.io, 'dev-1.18' is never published, 'release-1.17' is always https://v1-17.docs.kubernetes.io which mirrors master until 1.18.
+Graph is from latest (1.18 released) to oldest (1.17 released).
+<BR><BR>
+3 branches are shown: master, dev-1.18, release-1.17.
+<BR>
+<ul>
+     <li>'master' is always https://kubernetes.io</li>
+     <li>'dev-1.18' is never published</li>
+     <li>'release-1.17' is always https://v1-17.docs.kubernetes.io which mirrors master until 1.18</li>
+   </ul>
   <!-- DOM element in which we'll mount our graph -->
   <div id="graph-container"></div>
   <!-- Use the `GitgraphJS` global variable to create your graph -->
@@ -52,6 +60,11 @@
     
     
     devBranch.commit("FEATURE DOCS 1 in dev-1.18");
+
+    devBranch.merge({
+         branch: "master",
+         commitOptions: { author: "release <lead@example.org>" }
+         });
     
     master.commit("more fixes in master");
     
@@ -63,27 +76,20 @@
          });
     
     devBranch.commit("FEATURE DOCS 3 in dev-1.18");
-    devBranch.merge({
-         branch: "master",
-         commitOptions: { author: "release <lead@example.org>" }
-         });
+
     
-    
-    master.commit("more fixes in master");
+     master.commit("more fixes in master");
 
     master.commit("FEATURE DOCS 4 edit in master");
+
+    master.commit("aditional fixes in master");
+
     devBranch.commit("FEATURE DOCS 4 in dev-1.18");
 
     // 2 branches synced with master
-    devBranch.merge({
-         branch: "master",
-         commitOptions: { subject: "XXX !! MERGE CONFLICT !! XXX",
-                          author: "release <lead@example.org>"
-                         }
-         });
     
     devBranch.commit({
-        subject: "resolving conflicts",
+        subject: "(!! if merge conflict) resolving conflicts",
         author: "release <lead@example.org>"
         });
         
