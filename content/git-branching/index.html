@@ -5,14 +5,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
 </head>
 <body>
-Graph is from latest (1.18 released) to oldest (1.17 released).
+Graph is from latest (1.19 released) to oldest (1.18 released).
 <BR><BR>
-3 branches are shown: master, dev-1.18, release-1.17.
+3 branches are shown: master, dev-1.19, release-1.18.
 <BR>
 <ul>
      <li>'master' is always https://kubernetes.io</li>
-     <li>'dev-1.18' is never published</li>
-     <li>'release-1.17' is always https://v1-17.docs.kubernetes.io which mirrors master until 1.18</li>
+     <li>'dev-1.19' is never published</li>
+     <li>'release-1.18' is the last commit before a new release (https://v1-18.docs.kubernetes.io)</li>
    </ul>
   <!-- DOM element in which we'll mount our graph -->
   <div id="graph-container"></div>
@@ -32,34 +32,28 @@ Graph is from latest (1.18 released) to oldest (1.17 released).
     // Create master w/ init commits
     const master = gitgraph.branch("master");
     master.commit({
-        subject: "1.17 blog post announcement",
-        tag: "snapshot-initial-v1.17"
+        subject: "1.18 blog post announcement",
+        tag: "snapshot-initial-v1.18"
         });
         
         
     // create the dev branch (mirrors master holds feature docs)
-    const devBranch = gitgraph.branch("dev-1.18");
+    const devBranch = gitgraph.branch("dev-1.19");
 
     devBranch.merge({
          branch: "master",
-         commitOptions: { subject: "DEV-1.18 empty init",
+         commitOptions: { subject: "DEV-1.19 empty init",
                           author: "release <lead@example.org>"
                          }
          });
-        
-    // create release branch (mirrors master)
-    const releaseBranch = gitgraph.branch("release-1.17");
-    releaseBranch.commit({
-        subject: "RELEASE-1.17 updating config.toml",
-        author: "release <lead@example.org>"
-        });
+    
 
         
     master.commit("fix in master");
     master.commit("another content edit in master");
     
     
-    devBranch.commit("FEATURE DOCS 1 in dev-1.18");
+    devBranch.commit("FEATURE DOCS 1 in dev-1.19");
 
     devBranch.merge({
          branch: "master",
@@ -68,25 +62,17 @@ Graph is from latest (1.18 released) to oldest (1.17 released).
     
     master.commit("more fixes in master");
     
-    devBranch.commit("FEATURE DOCS 2 in dev-1.18");  
-   
-    releaseBranch.merge({
-         branch: "master",
-         commitOptions: {author: "release <lead@example.org>"}
-         });
+    devBranch.commit("FEATURE DOCS 2 in dev-1.19");  
     
-    devBranch.commit("FEATURE DOCS 3 in dev-1.18");
+    devBranch.commit("FEATURE DOCS 3 in dev-1.19");
 
-    
-     master.commit("more fixes in master");
-
-    master.commit("FEATURE DOCS 4 edit in master");
+    master.commit("EXISTING DOC update in master");
 
     master.commit("aditional fixes in master");
 
-    devBranch.commit("FEATURE DOCS 4 in dev-1.18");
+    devBranch.commit("EXISTING DOC update in dev-1.19");
 
-    // 2 branches synced with master
+    // dev branch synced with master
     
     devBranch.commit({
         subject: "(!! if merge conflict) resolving conflicts",
@@ -97,19 +83,31 @@ Graph is from latest (1.18 released) to oldest (1.17 released).
          branch: "master",
          commitOptions: { author: "release <lead@example.org>" }
          });
+         
+    master.commit("aditional fixes in master");
+   
+    // create release branch (mirrors master)
+    const releaseBranch = gitgraph.branch("release-1.18");
+
    
     releaseBranch.merge({
          branch: master,
          commitOptions: { author: "release <lead@example.org>" }
          });
+    
+    releaseBranch.commit({
+        subject: "RELEASE-1.18 updating config.toml",
+        author: "release <lead@example.org>"
+        });
+    
     master.merge({
          branch: devBranch,
          commitOptions: { author: "release <lead@example.org>" }
          });
 
     master.commit({
-        subject: "1.18 blog post announcement",
-        tag: "snapshot-initial-v1.18"
+        subject: "1.19 blog post announcement",
+        tag: "snapshot-initial-v1.19"
         });
   </script>
 </body>
