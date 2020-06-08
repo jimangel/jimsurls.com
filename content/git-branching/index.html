@@ -7,12 +7,13 @@
 <body>
 Graph is from latest (1.19 released) to oldest (1.18 released).
 <BR><BR>
-3 branches are shown: master, dev-1.19, release-1.18.
+4 branches are shown: master, dev-1.19, release-1.18, dev-1.20.
 <BR>
 <ul>
      <li>'master' is always https://kubernetes.io</li>
-     <li>'dev-1.19' is never published</li>
+     <li>'dev-1.19' contains 1.19 enhancement docs and is never published</li>
      <li>'release-1.18' is the last commit before a new release (https://v1-18.docs.kubernetes.io)</li>
+     <li>'dev-1.20' contains 1.20 enhancement docs and is never published</li>
    </ul>
   <!-- DOM element in which we'll mount our graph -->
   <div id="graph-container"></div>
@@ -109,6 +110,17 @@ Graph is from latest (1.19 released) to oldest (1.18 released).
         subject: "1.19 blog post announcement",
         tag: "snapshot-initial-v1.19"
         });
+        
+    // create the dev branch (mirrors master holds feature docs)
+    const devBranchNew = gitgraph.branch("dev-1.20");
+
+    devBranchNew.merge({
+         branch: "master",
+         commitOptions: { subject: "DEV-1.20 empty init",
+                          author: "release <lead@example.org>"
+                         }
+         });        
+
   </script>
 </body>
 </html>
