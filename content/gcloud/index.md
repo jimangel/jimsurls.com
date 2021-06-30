@@ -14,9 +14,10 @@ gcloud auth login
 gcloud config set project <PROJECT_ID>
 
 # LIST / USE GKE CLUSTERS
+export GKE_NAME=
 gcloud container clusters list
-gcloud container clusters get-credentials <NAME>
-gcloud container clusters create <NAME> --num-nodes 1 --machine-type e2-standard-4
+gcloud container clusters get-credentials $GKE_NAME
+gcloud container clusters create $GKE_NAME --num-nodes 1 --machine-type e2-standard-4 --enable-ip-alias
   
 # ENABLE SERVICES
 gcloud services enable container.googleapis.com
