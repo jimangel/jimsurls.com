@@ -18,6 +18,7 @@ export GKE_NAME=
 gcloud container clusters list
 gcloud container clusters get-credentials $GKE_NAME
 gcloud container clusters create $GKE_NAME --num-nodes 1 --machine-type e2-standard-4 --enable-ip-alias
-  
+# optional: --workload-pool=PROJECT_ID.svc.id.goog
+
 # ENABLE SERVICES
 gcloud services enable container.googleapis.com
