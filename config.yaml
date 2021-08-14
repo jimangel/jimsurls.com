@@ -1,0 +1,5 @@
+baseURL: https://example.com
+theme: bare
+disableKinds:
+- taxonomy
+- taxonomyTerm

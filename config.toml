@@ -1,3 +1,0 @@
-baseURL = "https://jimsurls.com/"
-theme = "bare"
-disableKinds = ["taxonomy", "taxonomyTerm"]
