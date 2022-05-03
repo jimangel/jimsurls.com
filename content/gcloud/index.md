@@ -9,6 +9,9 @@ gcloud config set account <ACCOUNT_NAME>
 gcloud config set compute/region us-central1
 gcloud config set compute/zone us-central1-a
 
+# IMPERSONATE SERVICE ACCOUNTS
+gcloud config set auth/impersonate_service_account ${_SA_EMAIL}
+
 # LOGIN / SWITCH PROJECTS
 gcloud auth login
 gcloud config set project <PROJECT_ID>
