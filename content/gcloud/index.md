@@ -6,6 +6,7 @@ gcloud config configurations activate <CONFIG_NAME>
 gcloud config configurations create <CONFIG_NAME>
 gcloud config set project <PROJECT_NAME>
 gcloud config set account <ACCOUNT_NAME>
+gcloud services enable compute.googleapis.com
 gcloud config set compute/region us-central1
 gcloud config set compute/zone us-central1-a
 
