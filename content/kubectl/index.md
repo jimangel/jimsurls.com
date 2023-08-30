@@ -29,3 +29,9 @@ EOF
 cat <<'EOF' > file
   SCHTUFF
 EOF
+
+# one line run
+kubectl run dnsutils --rm -i --tty --image="registry.k8s.io/e2e-test-images/jessie-dnsutils:1.3" -- bash
+
+# dns
+kubectl run dnsutils --restart=Never --rm -i --tty --image k8s.gcr.io/e2e-test-images/jessie-dnsutils:1.3 --overrides='{"apiVersion": "v1", "spec": {"nodeSelector": {"cloud.google.com/gke-nodepool": "h100"}, "tolerations": [{"key": "nvidia.com/gpu", "operator": "Equal", "value": "present", "effect": "NoSchedule"}], "hostNetwork": true, "dnsPolicy": "ClusterFirstWithHostNet"}}' -- /bin/bash
