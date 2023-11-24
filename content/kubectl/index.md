@@ -33,6 +33,9 @@ EOF
 # one line run
 kubectl run dnsutils --rm -i --tty --image="registry.k8s.io/e2e-test-images/jessie-dnsutils:1.3" -- bash
 
+# delete "Completed" pods
+kubectl delete pods -A --field-selector=status.phase==Succeeded
+
 # one line hacky filter
 kubectl get pods | grep 'UnexpectedAdmissionError' | awk '{print $1}' | xargs kubectl delete pod
 
