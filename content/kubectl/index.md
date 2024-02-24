@@ -41,3 +41,6 @@ kubectl get pods | grep 'UnexpectedAdmissionError' | awk '{print $1}' | xargs ku
 
 # dns
 kubectl run dnsutils --restart=Never --rm -i --tty --image k8s.gcr.io/e2e-test-images/jessie-dnsutils:1.3 --overrides='{"apiVersion": "v1", "spec": {"nodeSelector": {"cloud.google.com/gke-nodepool": "h100"}, "tolerations": [{"key": "nvidia.com/gpu", "operator": "Equal", "value": "present", "effect": "NoSchedule"}], "hostNetwork": true, "dnsPolicy": "ClusterFirstWithHostNet"}}' -- /bin/bash
+
+# delete everything in a namespace (exept CRDs or junk)
+kubectl get all -n default -o name | xargs kubectl delete -n default
