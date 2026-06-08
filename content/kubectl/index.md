@@ -44,3 +44,8 @@ kubectl run dnsutils --restart=Never --rm -i --tty --image k8s.gcr.io/e2e-test-i
 
 # delete everything in a namespace (exept CRDs or junk)
 kubectl get all -n default -o name | xargs kubectl delete -n default
+
+# rapid dev (build, load into KIND, restart)
+docker build -t myapp:latest .
+kind load docker-image myapp:latest --name my-cluster
+kubectl rollout restart deployment/myapp
