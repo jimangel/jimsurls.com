@@ -26,3 +26,6 @@ gcloud container clusters create $GKE_NAME --num-nodes 1 --machine-type e2-stand
 
 # ENABLE SERVICES
 gcloud services enable container.googleapis.com
+
+# COPY DATA BETWEEN GCS BUCKETS
+gcloud transfer jobs create --overwrite-when=always {src} {dst}
