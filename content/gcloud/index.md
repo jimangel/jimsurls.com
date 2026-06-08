@@ -29,3 +29,7 @@ gcloud services enable container.googleapis.com
 
 # COPY DATA BETWEEN GCS BUCKETS
 gcloud transfer jobs create --overwrite-when=always {src} {dst}
+
+# Serverless Gemma 3n with Ollama and Cloud Run in two commands:
+gcloud run deploy --image ollama/ollama --port 11434 --gpu 1 
+OLLAMA_HOST=[...]  ollama run gemma3n 
