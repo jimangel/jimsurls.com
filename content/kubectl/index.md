@@ -49,3 +49,10 @@ kubectl get all -n default -o name | xargs kubectl delete -n default
 docker build -t myapp:latest .
 kind load docker-image myapp:latest --name my-cluster
 kubectl rollout restart deployment/myapp
+
+# Node stats
+kubectl get nodes -o custom-columns=\
+"NAME:.metadata.name,\
+CPU:.status.allocatable.cpu,\
+MEM:.status.allocatable.memory,\
+PODS:.status.allocatable.pods"
